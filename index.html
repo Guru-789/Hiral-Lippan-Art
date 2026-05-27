@@ -340,6 +340,24 @@
             })();
 </script>
 
+          <a id="instaDM" class="btn-ghost" href="https://instagram.com/their_username" target="_blank" rel="noopener">Instagram</a>
+<script>
+  (function(){
+    const user='their_username';
+    const igApp = `instagram://user?username=${user}`;
+    const igWeb = `https://ig.me/${user}`;
+    document.getElementById('instaDM').addEventListener('click', function(e){
+      if(/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){
+        e.preventDefault();
+        const start=Date.now();
+        window.location = igApp;
+        setTimeout(()=>{ if(Date.now()-start<1200) window.open(igWeb,'_blank'); },800);
+      }
+    });
+  })();
+</script>
+
+
                 
         </div>
       </div>
