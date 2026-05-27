@@ -308,7 +308,38 @@
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
           <button class="cta" onclick="openWhatsApp()">WhatsApp</button>
-          <a class="btn-ghost" href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+          <!-- HTML -->
+          <a id="instaLink" class="btn-ghost" href="https://instagram.com/their_username" target="_blank" rel="noopener">Instagram</a>
+          
+          <!-- JS: place before </body> -->
+          <script>
+            (function() {
+              const username = '_justpurrrfect'; // change this to the real username
+              const webUrl = `https://instagram.com/${username}`;
+              const appUrl = `instagram://user?username=${username}`;
+          
+              // Try to open app first on click, fallback to web
+              document.getElementById('instaLink').addEventListener('click', function (e) {
+                // On mobile browsers this will attempt to open the app
+                // Keep default behavior for desktop (opens web profile)
+                if (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
+                  e.preventDefault();
+                  // Try app deep link, then fallback to web after short delay
+                  const start = Date.now();
+                  window.location = appUrl;
+                  setTimeout(function () {
+                    // If app didn't open, open web profile
+                    if (Date.now() - start < 1200) {
+                      window.open(webUrl, '_blank');
+                    }
+                  }, 800);
+                }
+                // desktop: let the anchor open the web profile
+              });
+            })();
+</script>
+
+                
         </div>
       </div>
 
