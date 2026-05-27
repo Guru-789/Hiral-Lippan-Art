@@ -659,5 +659,41 @@
       }
     });
   </script>
+  <script>// Replace CLIENTNUMBER with the client's number (country code + number, no + or spaces)
+    const WHATSAPP_NUMBER = '919321530929git';
+    
+    // Helper to open WhatsApp with a prefilled message
+    function openWhatsApp() {
+      try {
+        const name = (document.getElementById('name') || {}).value || 'Customer';
+        const email = (document.getElementById('email') || {}).value || '';
+        const message = (document.getElementById('message') || {}).value || 'Requesting a quick quote';
+        const details = `Name: ${name}\nEmail: ${email}\nMessage: ${message}`;
+    
+        // Validate phone (digits only)
+        const phone = String(WHATSAPP_NUMBER).replace(/\D/g, '');
+        if (!/^\d{8,15}$/.test(phone)) {
+          alert('WhatsApp number is not configured correctly.');
+          return;
+        }
+    
+        // Use wa.me which works on mobile and desktop; fallback to web.whatsapp.com if needed
+        const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(details)}`;
+        // open in new tab/window
+        const win = window.open(waUrl, '_blank');
+        if (!win) {
+          // popup blocked
+          alert('Popup blocked. Please allow popups for this site or use the WhatsApp link manually.');
+        }
+      } catch (err) {
+        console.error('openWhatsApp error', err);
+        alert('Unable to open WhatsApp. Check console for details.');
+      }
+    }
+    
+    // If your script is loaded as module, expose the function to global scope for inline onclick handlers
+    window.openWhatsApp = openWhatsApp;
+    </script>
 </body>
+
 </html>
