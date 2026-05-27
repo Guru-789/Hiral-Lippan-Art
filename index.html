@@ -578,7 +578,7 @@
       if(CART.length===0){ alert('Cart is empty'); return; }
       const total = CART.reduce((s,i)=>s + (i.price || 0) * i.qty, 0);
       const details = CART.map(i=>`${i.title} x${i.qty}`).join(', ');
-      const upi = 'yourupi@upi'; // replace
+      const upi = '9892370281@ybl'; // replace
       const isMobile = /Android|iPhone/i.test(navigator.userAgent);
       if(isMobile){
         window.location.href = `upi://pay?pa=${upi}&pn=Hiral%20Lippan&am=${total}&cu=INR&tn=${encodeURIComponent(details)}`;
