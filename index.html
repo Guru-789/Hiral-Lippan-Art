@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hiral Lippan Art — Luxury Lippan Craft</title>
+
+  <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/css/splide.min.css">
+
+  <style>
+    /* -------------------------
+       Base and variables
+       ------------------------- */
+    :root{
+      --accent:#e07b3a;
+      --accent-2:#f6c89f;
+      --muted:#6b6b6b;
+      --bg:#fffdfb;
+      --card:#ffffff;
+      --glass: rgba(255,255,255,0.6);
+      --radius:18px;
+      --max-width:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg,#fffaf6 0%, #fff 40%);
+      color:#222;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+    }
+    a{color:var(--accent); text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* -------------------------
+       Header / Nav
+       ------------------------- */
+    header{
+      position:fixed; top:0; left:0; right:0; z-index:1200;
+      background:linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.6));
+      backdrop-filter: blur(6px);
+      border-bottom:1px solid rgba(0,0,0,0.04);
+    }
+    .nav-inner{
+      max-width:var(--max-width); margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:16px; justify-content:space-between;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+    }
+    .brand .logo{
+      width:48px; height:48px; border-radius:12px; overflow:hidden; box-shadow:0 6px 18px rgba(224,123,58,0.12);
+      display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--accent),#ffb88c);
+    }
+    .brand h1{font-family:"Playfair Display",serif; font-size:1.1rem; margin:0; color:var(--accent)}
+    .nav-actions{display:flex; gap:10px; align-items:center}
+    .btn-ghost{background:transparent;border:1px solid rgba(0,0,0,0.06);padding:8px 12px;border-radius:10px}
+    .cart-btn{background:linear-gradient(90deg,var(--accent),#ff9f5a); color:white; border:none; padding:10px 14px; border-radius:12px; box-shadow:0 8px 20px rgba(224,123,58,0.18)}
+
+    /* -------------------------
+       Hero with parallax and SVG
+       ------------------------- */
+    .hero{
+      height:88vh; min-height:560px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;
+      margin-top:72px;
+    }
+    .hero .bg{
+      position:absolute; inset:0; background-size:cover; background-position:center; transform:scale(1.05); filter:contrast(1.02) saturate(1.05);
+      transition:transform .8s ease;
+    }
+    .hero .overlay{
+      position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.06));
+    }
+    .hero .content{
+      position:relative; z-index:5; text-align:center; color:white; padding:40px; max-width:1100px;
+    }
+    .hero h2{font-family:"Playfair Display",serif; font-size:3.2rem; margin-bottom:12px; letter-spacing:0.6px}
+    .hero p{font-size:1.05rem; color:rgba(255,255,255,0.95); margin-bottom:18px}
+    .hero .cta{display:inline-flex; gap:10px; align-items:center; padding:12px 20px; border-radius:12px; background:linear-gradient(90deg,var(--accent),#ff9f5a); color:white; font-weight:600; box-shadow:0 12px 30px rgba(224,123,58,0.18)}
+
+    /* decorative SVG shapes */
+    .shape{
+      position:absolute; z-index:3; opacity:0.9; filter:drop-shadow(0 10px 30px rgba(0,0,0,0.08));
+    }
+    .shape.s1{right:-60px; top:20%; width:420px; transform:rotate(12deg)}
+    .shape.s2{left:-80px; bottom:10%; width:360px; transform:rotate(-8deg)}
+
+    /* -------------------------
+       Gallery grid with filters and hover
+       ------------------------- */
+    .section{
+      padding:70px 20px;
+      max-width:var(--max-width); margin:0 auto;
+    }
+    .section h3{font-family:"Playfair Display",serif; color:var(--accent); margin-bottom:18px}
+    .filters{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:22px}
+    .filter-btn{padding:8px 14px; border-radius:999px; border:1px solid rgba(0,0,0,0.06); background:white; cursor:pointer}
+    .filter-btn.active{background:linear-gradient(90deg,var(--accent),#ff9f5a); color:white; border:none; box-shadow:0 8px 20px rgba(224,123,58,0.12)}
+
+    .grid{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+    }
+    @media(max-width:992px){ .grid{grid-template-columns:repeat(2,1fr)} }
+    @media(max-width:576px){ .grid{grid-template-columns:1fr} }
+
+    .card-art{
+      background:var(--card); border-radius:16px; overflow:hidden; position:relative; box-shadow:0 10px 30px rgba(12,12,12,0.06);
+      transition:transform .35s ease, box-shadow .35s ease;
+    }
+    .card-art:hover{ transform:translateY(-8px); box-shadow:0 20px 50px rgba(12,12,12,0.12) }
+    .card-art .thumb{height:260px; overflow:hidden}
+    .card-art .thumb img{width:100%; height:100%; object-fit:cover; transition:transform .6s ease}
+    .card-art:hover .thumb img{ transform:scale(1.06) }
+    .card-art .meta{ padding:14px 16px; display:flex; justify-content:space-between; align-items:center; gap:12px }
+    .card-art .meta .title{ font-weight:600 }
+    .price{ color:var(--accent); font-weight:700 }
+
+    /* quick action overlay */
+    .quick-actions{
+      position:absolute; right:12px; top:12px; display:flex; gap:8px; z-index:6;
+    }
+    .quick-actions button{ background:rgba(255,255,255,0.92); border:none; padding:8px; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.06); cursor:pointer }
+
+    /* -------------------------
+       Lightbox modal
+       ------------------------- */
+    .lightbox{
+      position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.7);
+      z-index:2000; opacity:0; pointer-events:none; transition:opacity .25s ease;
+    }
+    .lightbox.active{ opacity:1; pointer-events:auto }
+    .lightbox .panel{ width:min(1100px,95%); background:transparent; border-radius:12px; overflow:hidden; display:flex; gap:20px; align-items:center }
+    .lightbox .panel .left{ flex:1; }
+    .lightbox .panel .right{ width:360px; background:var(--card); padding:18px; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.18) }
+
+    /* -------------------------
+       About / Reviews / Contact
+       ------------------------- */
+    .about-grid{ display:grid; grid-template-columns:1fr 420px; gap:28px; align-items:center }
+    @media(max-width:992px){ .about-grid{ grid-template-columns:1fr } }
+    .about-card{ background:linear-gradient(180deg,#fff,#fffaf6); padding:26px; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.06) }
+
+    .reviews .splide__slide{ display:flex; justify-content:center; align-items:center; padding:20px }
+    .review-card{ max-width:760px; background:#fff7ed; padding:28px; border-radius:16px; box-shadow:0 12px 40px rgba(0,0,0,0.08) }
+
+    /* -------------------------
+       Floating cart sidebar
+       ------------------------- */
+    .cart-panel{
+      position:fixed; right:20px; bottom:20px; width:420px; max-width:calc(100% - 40px); background:linear-gradient(180deg,#fff,#fffaf6);
+      border-radius:16px; box-shadow:0 30px 80px rgba(0,0,0,0.18); overflow:hidden; z-index:1500; transform:translateY(120%); transition:transform .45s cubic-bezier(.2,.9,.3,1);
+    }
+    .cart-panel.open{ transform:translateY(0) }
+    .cart-panel header{ padding:16px 18px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(0,0,0,0.04) }
+    .cart-items{ max-height:320px; overflow:auto; padding:12px 18px; display:flex; flex-direction:column; gap:12px }
+    .cart-row{ display:flex; gap:12px; align-items:center; justify-content:space-between; background:white; padding:10px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.04) }
+
+    /* -------------------------
+       Footer
+       ------------------------- */
+    footer{ padding:40px 20px; text-align:center; color:var(--muted) }
+    footer .small{ font-size:.9rem }
+
+    /* -------------------------
+       Utility
+       ------------------------- */
+    .center{ display:flex; align-items:center; justify-content:center }
+    .sr-only{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <!-- simple SVG logo -->
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="20" height="20" rx="6" fill="white" opacity="0.06"/>
+            <path d="M6 12c2-3 6-6 12-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Hiral Lippan</h1>
+          <div style="font-size:.85rem;color:var(--muted)">Luxury Lippan Art</div>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <nav aria-label="Primary">
+          <a class="btn-ghost" href="#gallery">Gallery</a>
+          <a class="btn-ghost" href="#about">About</a>
+          <a class="btn-ghost" href="#reviews">Reviews</a>
+        </nav>
+        <button class="cart-btn" id="openCartBtn" aria-expanded="false">Cart • <span id="cartCount">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="home" aria-label="Hero">
+    <div class="bg" id="heroBg" style="background-image:url('Main_Bg.jpeg')"></div>
+    <div class="overlay"></div>
+
+    <!-- decorative shapes -->
+    <svg class="shape s1" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#ffd6b3"/><stop offset="1" stop-color="#ffb88c"/></linearGradient></defs>
+      <path d="M300 20c120 0 220 100 220 220s-100 220-220 220S80 360 80 240 180 20 300 20z" fill="url(#g1)" opacity="0.95"/>
+    </svg>
+
+    <svg class="shape s2" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#fff1e6"/><stop offset="1" stop-color="#ffe6d1"/></linearGradient></defs>
+      <path d="M300 40c100 0 180 80 180 180s-80 180-180 180S120 320 120 220 200 40 300 40z" fill="url(#g2)" opacity="0.9"/>
+    </svg>
+
+    <div class="content">
+      <h2>Handmade Lippan Art That Transforms Spaces</h2>
+      <p>Traditional mud mirror work reimagined for modern interiors. Each piece is handcrafted with love and premium finishes.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a class="cta" href="#gallery">Explore Collection</a>
+        <a class="cta" href="#contact">Contact Artist</a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="gallery" class="section" aria-labelledby="galleryTitle">
+    <h3 id="galleryTitle">Gallery</h3>
+
+    <div class="filters" role="tablist" aria-label="Filter artworks">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="mandala">Mandala</button>
+      <button class="filter-btn" data-filter="peacock">Peacock</button>
+      <button class="filter-btn" data-filter="custom">Custom</button>
+    </div>
+
+    <div class="grid" id="artGrid" aria-live="polite">
+      <!-- cards injected by JS -->
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section" aria-labelledby="aboutTitle">
+    <h3 id="aboutTitle">About Hiral Art</h3>
+    <div class="about-grid">
+      <div class="about-card">
+        <h4 style="margin-top:0">Craftsmanship Meets Contemporary Design</h4>
+        <p style="color:var(--muted)">Hiral Lippan Art preserves the centuries‑old tradition of Lippan mirror and mud work while introducing refined palettes and premium finishes. Each piece is handmade using natural materials, mirror inlays, and hand‑painted accents.</p>
+        <ul style="color:var(--muted); margin-top:12px">
+          <li>Custom sizes and color palettes</li>
+          <li>Premium mirror and sealant for longevity</li>
+          <li>Professional packaging and insured shipping</li>
+        </ul>
+        <div style="margin-top:18px">
+          <a class="cta" href="#contact">Request a Custom Piece</a>
+        </div>
+      </div>
+
+      <div>
+        <img src="artist.jpeg" alt="Artist at work" style="width:100%; border-radius:14px; box-shadow:0 20px 60px rgba(0,0,0,0.08)">
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews Section -->
+  <section id="reviews" class="section reviews" aria-labelledby="reviewsTitle">
+    <h3 id="reviewsTitle">Customer Reviews</h3>
+    <div id="splideReviews" class="splide" aria-label="Customer testimonials">
+      <div class="splide__track">
+        <ul class="splide__list">
+          <li class="splide__slide">
+            <div class="review-card">
+              <p style="font-style:italic">"Absolutely stunning. The piece elevated my living room instantly."</p>
+              <strong>- Riya</strong>
+            </div>
+          </li>
+          <li class="splide__slide">
+            <div class="review-card">
+              <p style="font-style:italic">"Beautiful craftsmanship and quick delivery. Highly recommended."</p>
+              <strong>- Amit</strong>
+            </div>
+          </li>
+          <li class="splide__slide">
+            <div class="review-card">
+              <p style="font-style:italic">"The custom color matched my decor perfectly. Great communication."</p>
+              <strong>- Sneha</strong>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section" aria-labelledby="contactTitle">
+    <h3 id="contactTitle">Contact</h3>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
+      <div style="flex:1; min-width:260px" class="about-card">
+        <h4 style="margin-top:0">Ready to bring Lippan to your space</h4>
+        <p style="color:var(--muted)">Message us on WhatsApp for quick quotes, or fill the form to request a custom commission.</p>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+          <button class="cta" onclick="openWhatsApp()">WhatsApp</button>
+          <a class="btn-ghost" href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+
+      <form id="contactForm" style="flex:1; min-width:260px" class="about-card" aria-label="Contact form">
+        <label class="sr-only" for="name">Name</label>
+        <input id="name" name="name" required placeholder="Your name" style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);margin-bottom:10px">
+
+        <label class="sr-only" for="email">Email</label>
+        <input id="email" name="email" type="email" required placeholder="Email" style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);margin-bottom:10px">
+
+        <label class="sr-only" for="message">Message</label>
+        <textarea id="message" name="message" rows="4" placeholder="Tell us about your project" style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);margin-bottom:10px"></textarea>
+
+        <div style="display:flex;gap:10px">
+          <button type="submit" class="cta">Send Message</button>
+          <button type="button" class="btn-ghost" onclick="openWhatsApp()">Quick Quote</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Floating Cart Panel -->
+  <div class="cart-panel" id="cartPanel" aria-hidden="true">
+    <header>
+      <div>
+        <strong>Your Cart</strong>
+        <div style="font-size:.85rem;color:var(--muted)">Secure checkout via UPI or WhatsApp</div>
+      </div>
+      <div>
+        <button class="btn-ghost" id="closeCart">Close</button>
+      </div>
+    </header>
+    <div class="cart-items" id="cartItems"></div>
+    <div style="padding:16px;border-top:1px solid rgba(0,0,0,0.04); display:flex; gap:12px; align-items:center; justify-content:space-between">
+      <div>
+        <div style="font-size:.95rem;color:var(--muted)">Total</div>
+        <div id="cartTotal" style="font-weight:700;font-size:1.1rem">₹0</div>
+      </div>
+      <div style="flex:1">
+        <button class="cta" style="width:100%" id="checkoutBtn">Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="panel">
+      <div class="left">
+        <img id="lightboxImg" src="" alt="Artwork large view" style="width:100%; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.2)">
+      </div>
+      <div class="right">
+        <h4 id="lightboxTitle">Title</h4>
+        <p id="lightboxDesc" style="color:var(--muted)">Description</p>
+        <div style="margin-top:12px">
+          <div style="font-weight:700;color:var(--accent)" id="lightboxPrice">₹0</div>
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <button class="cta" id="lbAdd">Add to Cart</button>
+            <button class="btn-ghost" id="lbClose">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div style="max-width:var(--max-width);margin:0 auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>
+          <strong>Hiral Lippan Art</strong>
+          <div class="small" style="color:var(--muted)">Handmade Lippan mirror art • Mumbai, India</div>
+        </div>
+        <div style="color:var(--muted)">© <span id="year"></span> Hiral Lippan. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+  <script>
+    /* -------------------------
+       Data model
+       ------------------------- */
+    const PRODUCTS = [
+      { id:1, title:'Mandala Mirror Panel', price:4200, tag:'mandala', img:'art2.jpeg', desc:'Handmade mandala panel with mirror inlays and gold accents.' },
+      { id:2, title:'Peacock Elegance', price:5200, tag:'peacock', img:'art6.jpeg', desc:'Peacock motif with intricate mirror work and hand painted details.' },
+      { id:3, title:'Custom Name Frame', price:3500, tag:'custom', img:'art5.jpeg', desc:'Personalized name art with Lippan finish. Perfect for gifting.' },
+      { id:4, title:'Mini Mandala Set', price:2800, tag:'mandala', img:'art1.jpeg', desc:'Set of three mini mandala pieces for accent walls.' },
+      { id:5, title:'Royal Stitch Duo', price:7600, tag:'peacock', img:'art4.jpeg', desc:'Large duo set with premium mirror and lacquer finish.' },
+      { id:6, title:'Custom Commission', price:0, tag:'custom', img:'art3.jpeg', desc:'Commission a bespoke piece. Contact for quote.' }
+    ];
+
+    /* -------------------------
+       Utilities
+       ------------------------- */
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+    const formatINR = n => '₹' + n.toLocaleString('en-IN');
+
+    /* -------------------------
+       Render gallery
+       ------------------------- */
+    const artGrid = $('#artGrid');
+    function renderGrid(filter='all'){
+      artGrid.innerHTML = '';
+      const items = PRODUCTS.filter(p => filter==='all' ? true : p.tag===filter);
+      items.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'card-art';
+        div.innerHTML = `
+          <div class="thumb" role="button" tabindex="0" aria-label="${p.title}">
+            <img loading="lazy" src="${p.img}" alt="${p.title}">
+          </div>
+          <div class="meta">
+            <div>
+              <div class="title">${p.title}</div>
+              <div class="small" style="color:var(--muted);font-size:.9rem">${p.tag.toUpperCase()}</div>
+            </div>
+            <div style="text-align:right">
+              <div class="price">${p.price ? formatINR(p.price) : 'Contact'}</div>
+              <div style="margin-top:8px">
+                <button class="btn-ghost" data-action="view" data-id="${p.id}">View</button>
+                <button class="cart-btn" data-action="add" data-id="${p.id}">Add</button>
+              </div>
+            </div>
+          </div>
+        `;
+        artGrid.appendChild(div);
+      });
+    }
+    renderGrid();
+
+    /* -------------------------
+       Filters
+       ------------------------- */
+    $$('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        $$('.filter-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        renderGrid(btn.dataset.filter);
+      });
+    });
+
+    /* -------------------------
+       Lightbox interactions
+       ------------------------- */
+    const lightbox = $('#lightbox');
+    const lbImg = $('#lightboxImg');
+    const lbTitle = $('#lightboxTitle');
+    const lbDesc = $('#lightboxDesc');
+    const lbPrice = $('#lightboxPrice');
+    let currentProduct = null;
+
+    artGrid.addEventListener('click', e => {
+      const btn = e.target.closest('button');
+      const thumb = e.target.closest('.thumb');
+      if(btn){
+        const id = Number(btn.dataset.id);
+        const action = btn.dataset.action;
+        const product = PRODUCTS.find(p=>p.id===id);
+        if(action==='view') openLightbox(product);
+        if(action==='add') addToCart(product);
+      } else if(thumb){
+        const card = thumb.parentElement;
+        const idx = Array.from(artGrid.children).indexOf(card);
+        // find product by image src
+        const src = thumb.querySelector('img').getAttribute('src');
+        const product = PRODUCTS.find(p=>p.img===src);
+        if(product) openLightbox(product);
+      }
+    });
+
+    function openLightbox(product){
+      currentProduct = product;
+      lbImg.src = product.img;
+      lbTitle.textContent = product.title;
+      lbDesc.textContent = product.desc;
+      lbPrice.textContent = product.price ? formatINR(product.price) : 'Contact for quote';
+      lightbox.classList.add('active');
+      lightbox.setAttribute('aria-hidden','false');
+      // animate
+      gsap.fromTo('#lightbox .panel',{y:40,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out'});
+    }
+    $('#lbClose').addEventListener('click', closeLightbox);
+    $('#lbAdd').addEventListener('click', () => { if(currentProduct) addToCart(currentProduct); closeLightbox(); });
+    lightbox.addEventListener('click', e => { if(e.target===lightbox) closeLightbox(); });
+    function closeLightbox(){ lightbox.classList.remove('active'); lightbox.setAttribute('aria-hidden','true'); }
+
+    /* -------------------------
+       Cart logic
+       ------------------------- */
+    let CART = [];
+    const cartPanel = $('#cartPanel');
+    const cartItemsEl = $('#cartItems');
+    const cartTotalEl = $('#cartTotal');
+    const cartCountEl = $('#cartCount');
+
+    function addToCart(product){
+      if(!product) return;
+      const existing = CART.find(i=>i.id===product.id);
+      if(existing) existing.qty++;
+      else CART.push({ ...product, qty:1 });
+      updateCartUI();
+      // small animation
+      gsap.fromTo('#openCartBtn',{scale:1},{scale:1.06,duration:.12,yoyo:true,repeat:1});
+    }
+
+    function updateCartUI(){
+      cartItemsEl.innerHTML = '';
+      let total = 0;
+      CART.forEach(item => {
+        total += (item.price || 0) * item.qty;
+        const row = document.createElement('div');
+        row.className = 'cart-row';
+        row.innerHTML = `
+          <div style="display:flex;gap:12px;align-items:center">
+            <img src="${item.img}" alt="${item.title}" style="width:64px;height:64px;object-fit:cover;border-radius:8px">
+            <div>
+              <div style="font-weight:600">${item.title}</div>
+              <div style="color:var(--muted);font-size:.9rem">${item.qty} × ${item.price ? formatINR(item.price) : 'Contact'}</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+            <div style="font-weight:700">${item.price ? formatINR(item.price * item.qty) : ''}</div>
+            <div style="display:flex;gap:6px">
+              <button class="btn-ghost" data-action="dec" data-id="${item.id}">-</button>
+              <button class="btn-ghost" data-action="inc" data-id="${item.id}">+</button>
+              <button class="btn-ghost" data-action="rem" data-id="${item.id}">Remove</button>
+            </div>
+          </div>
+        `;
+        cartItemsEl.appendChild(row);
+      });
+      cartTotalEl.textContent = formatINR(total);
+      cartCountEl.textContent = CART.reduce((s,i)=>s+i.qty,0);
+      // attach handlers
+      cartItemsEl.querySelectorAll('button').forEach(b=>{
+        b.addEventListener('click', e=>{
+          const id = Number(b.dataset.id);
+          const action = b.dataset.action;
+          if(action==='dec'){ changeQty(id,-1) }
+          if(action==='inc'){ changeQty(id,1) }
+          if(action==='rem'){ removeFromCart(id) }
+        });
+      });
+    }
+
+    function changeQty(id, delta){
+      const item = CART.find(i=>i.id===id);
+      if(!item) return;
+      item.qty += delta;
+      if(item.qty <= 0) CART = CART.filter(i=>i.id!==id);
+      updateCartUI();
+    }
+    function removeFromCart(id){ CART = CART.filter(i=>i.id!==id); updateCartUI(); }
+
+    // open/close cart
+    $('#openCartBtn').addEventListener('click', () => {
+      cartPanel.classList.toggle('open');
+      $('#openCartBtn').setAttribute('aria-expanded', cartPanel.classList.contains('open'));
+    });
+    $('#closeCart').addEventListener('click', () => cartPanel.classList.remove('open'));
+
+    // checkout
+    $('#checkoutBtn').addEventListener('click', () => {
+      if(CART.length===0){ alert('Cart is empty'); return; }
+      const total = CART.reduce((s,i)=>s + (i.price || 0) * i.qty, 0);
+      const details = CART.map(i=>`${i.title} x${i.qty}`).join(', ');
+      const upi = 'yourupi@upi'; // replace
+      const isMobile = /Android|iPhone/i.test(navigator.userAgent);
+      if(isMobile){
+        window.location.href = `upi://pay?pa=${upi}&pn=Hiral%20Lippan&am=${total}&cu=INR&tn=${encodeURIComponent(details)}`;
+      } else {
+        window.open(`https://wa.me/919321530929?text=${encodeURIComponent('Order: ' + details + '\nTotal: ' + formatINR(total))}`, '_blank');
+      }
+    });
+
+    /* -------------------------
+       Contact form (local demo)
+       ------------------------- */
+    $('#contactForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = $('#name').value.trim();
+      const email = $('#email').value.trim();
+      const message = $('#message').value.trim();
+      // For demo, we show a toast and reset
+      alert(`Thanks ${name}. We received your message and will respond shortly.`);
+      $('#contactForm').reset();
+    });
+
+    /* -------------------------
+       Splide reviews carousel
+       ------------------------- */
+    document.addEventListener('DOMContentLoaded', () => {
+      new Splide('#splideReviews', {
+        type: 'loop',
+        perPage: 1,
+        autoplay: true,
+        interval: 3500,
+        pauseOnHover: true,
+        arrows: false,
+        pagination: true
+      }).mount();
+
+      // subtle hero parallax
+      gsap.to('#heroBg', { scale:1.02, duration:12, repeat:-1, yoyo:true, ease:'sine.inOut' });
+
+      // entrance animations
+      gsap.from('.brand', { y:-10, opacity:0, duration:.6 });
+      gsap.from('.hero .content', { y:20, opacity:0, duration:.8, delay:.2 });
+      gsap.from('.section h3', { y:20, opacity:0, duration:.6, stagger:.08, delay:.2 });
+    });
+
+    /* -------------------------
+       Accessibility and small helpers
+       ------------------------- */
+    // close lightbox with ESC
+    document.addEventListener('keydown', e => {
+      if(e.key === 'Escape'){
+        closeLightbox();
+        cartPanel.classList.remove('open');
+      }
+    });
+
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // lazy load fallback: ensure images exist
+    PRODUCTS.forEach(p => {
+      const img = new Image();
+      img.src = p.img;
+      img.onerror = () => {
+        // fallback placeholder
+        p.img = 'https://via.placeholder.com/900x600?text=Artwork';
+      };
+    });
+
+    // initial cart UI
+    updateCartUI();
+
+    /* -------------------------
+       Small polish: keyboard focus for cards
+       ------------------------- */
+    document.addEventListener('keydown', e => {
+      if(e.key === 'Tab'){
+        document.body.classList.add('user-is-tabbing');
+      }
+    });
+  </script>
+</body>
+</html>
